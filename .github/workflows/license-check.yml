@@ -1,0 +1,17 @@
+name: License check
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  license:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify a LICENSE file exists
+        run: test -f LICENSE || { echo "::error::No LICENSE file found"; exit 1; }
+      - name: Verify it is detected as MIT
+        uses: licensee/licensee-action@v1
+        with:
+          path: LICENSE
